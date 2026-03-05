@@ -1,0 +1,11 @@
+# Node.js
+airbnb-backend/node_modules/
+.env
+
+# Python
+airbnb-price-api/venv/
+airbnb-price-api/__pycache__/
+*.pyc
+
+# Bỏ qua các file hệ thống
+.DS_Store
