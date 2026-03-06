@@ -5,9 +5,8 @@ const axios = require('axios'); // Thêm axios để gọi API bên ngoài
 const app = express();
 const PORT = 5000;
 
-// URL của trạm AI FastAPI (đang chạy ở cổng 8000)
-const FASTAPI_URL = 'http://127.0.0.1:8000/predict';
-
+// Nếu chạy trong Docker thì lấy link từ biến môi trường, nếu chạy ngoài máy tính thì vẫn dùng localhost
+const FASTAPI_URL = process.env.FASTAPI_URL || 'http://127.0.0.1:8000/predict';
 // Middleware
 app.use(cors());
 app.use(express.json());

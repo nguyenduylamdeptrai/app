@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # 1. Trạm AI (Python)
+  ml-api:
+    build: ./airbnb-price-api
+    container_name: airbnb-ml-api
+    ports:
+      - "8000:8000"
+    restart: always
+
+  # 2. Trạm Trung Chuyển (Node.js)
+  backend:
+    build: ./airbnb-backend
+    container_name: airbnb-backend
+    ports:
+      - "5000:5000"
+    environment:
+      # Nối dây mạng: Chỉ đích danh tên service 'ml-api' thay vì dùng localhost
+      - FASTAPI_URL=http://ml-api:8000/predict
+    depends_on:
+      - ml-api
+    restart: always
+
+  # 3. Giao Diện (React + Nginx)
+  frontend:
+    build: ./airbnb-frontend
+    container_name: airbnb-frontend
+    ports:
+      # Nginx bên trong chạy cổng 80, ta ánh xạ ra cổng 3000 ở ngoài cho quen thuộc
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: always
